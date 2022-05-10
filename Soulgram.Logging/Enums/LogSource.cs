@@ -3,5 +3,6 @@
 public enum LogSource
 {
     Console,
-    Debug
+    Debug,
+    Seq
 }

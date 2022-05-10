@@ -5,7 +5,6 @@ namespace Soulgram.Logging.Models;
 
 public record LoggingSettings
 {
-    public string? OutputFormat { get; init; }
     public LogEventLevel MinimumLevel { get; init; } = LogEventLevel.Information;
     public LogSource[] LogSources { get; init; } = { LogSource.Console };
     public AvailableEnrichers[]? Enrichers { get; init; }

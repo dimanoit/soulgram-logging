@@ -46,8 +46,7 @@ public static class LoggerConfigurationBuilder
 
     private static LoggerConfiguration AddWriteToSources(
         this LoggerConfiguration configuration,
-        LogSource[] sources,
-        string? outputFormat)
+        LogSource[] sources)
     {
         ArgumentNullException.ThrowIfNull(sources);
 
@@ -56,18 +55,17 @@ public static class LoggerConfigurationBuilder
             {
                 case LogSource.Console:
                 {
-                    if (string.IsNullOrEmpty(outputFormat))
-                        configuration.WriteTo.Console();
-                    else
-                        configuration.WriteTo.Console(outputTemplate: outputFormat);
+                    configuration.WriteTo.Console();
                     break;
                 }
                 case LogSource.Debug:
                 {
-                    if (string.IsNullOrEmpty(outputFormat))
-                        configuration.WriteTo.Debug();
-                    else
-                        configuration.WriteTo.Debug(outputTemplate: outputFormat);
+                    configuration.WriteTo.Debug();
+                    break;
+                }
+                case LogSource.Seq:
+                {
+                    configuration.WriteTo.Seq("http://localhost:5341");
                     break;
                 }
             }
@@ -78,7 +76,7 @@ public static class LoggerConfigurationBuilder
     public static LoggerConfiguration GetConfiguration(LoggingSettings settings)
     {
         var configuration = new LoggerConfiguration()
-            .AddWriteToSources(settings.LogSources, settings.OutputFormat)
+            .AddWriteToSources(settings.LogSources)
             .SetMinimumLevel(settings.MinimumLevel)
             .AddEnrichers(settings.Enrichers)
             .ExcludeFromContext(settings.SourceContextToExclude);
