@@ -14,15 +14,22 @@ internal class UserClaimsEnricher : ILogEventEnricher
     {
         var claims = _httpContextAccessor.HttpContext?.User?.Claims.ToArray();
 
-        if (claims == null || !claims.Any()) return;
+        if (claims == null || !claims.Any())
+        {
+            return;
+        }
 
         var userId = claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
         var userEmail = claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
 
-        logEvent.AddOrUpdateProperty(propertyFactory.CreateProperty(UserLogProperty, new
+        var userInfoObject = new
         {
             UserId = userId,
             Email = userEmail
-        }, true));
+        };
+
+        var property = propertyFactory.CreateProperty(UserLogProperty, userInfoObject, true);
+
+        logEvent.AddOrUpdateProperty(property);
     }
 }

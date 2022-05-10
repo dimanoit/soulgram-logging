@@ -6,7 +6,7 @@ namespace Soulgram.Logging.Models;
 public record LoggingSettings
 {
     public LogEventLevel MinimumLevel { get; init; } = LogEventLevel.Information;
-    public LogSource[] LogSources { get; init; } = { LogSource.Console };
+    public LogSource[] LogSources { get; init; } = {LogSource.Console};
     public AvailableEnrichers[]? Enrichers { get; init; }
 
     public IReadOnlyDictionary<string, LogEventLevel>? SourceContextToExclude { get; init; }

@@ -16,7 +16,10 @@ public static class LoggerConfigurationBuilder
         this LoggerConfiguration configuration,
         IReadOnlyDictionary<string, LogEventLevel>? sourcesToExclude)
     {
-        if (sourcesToExclude is null) return configuration;
+        if (sourcesToExclude is null)
+        {
+            return configuration;
+        }
 
         foreach (var keyValue in sourcesToExclude)
             configuration.Filter.ByExcludingLogsFrom(keyValue.Key, keyValue.Value);
@@ -28,7 +31,10 @@ public static class LoggerConfigurationBuilder
         this LoggerConfiguration configuration,
         params AvailableEnrichers[]? enrichers)
     {
-        if (enrichers == null) return configuration;
+        if (enrichers == null)
+        {
+            return configuration;
+        }
 
         foreach (var enricher in enrichers)
             switch (enricher)
