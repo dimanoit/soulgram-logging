@@ -9,7 +9,7 @@ public class CorrelationIdEnricher : ILogEventEnricher
     private readonly IHttpContextAccessor _httpContextAccessor = new HttpContextAccessor();
     private readonly string CorrelationIdHeader = "X-Correlation-Id";
     private readonly string CorrelationIdProperty = "CorrelationId";
-    
+
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
     {
         _httpContextAccessor.HttpContext?.Request?.Headers?

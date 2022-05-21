@@ -2,7 +2,6 @@
 
 public enum AvailableEnrichers
 {
-    FromLogContext,
     UserClaim,
     CorrelationId
 }

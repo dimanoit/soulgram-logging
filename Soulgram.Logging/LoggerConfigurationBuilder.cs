@@ -29,8 +29,12 @@ public static class LoggerConfigurationBuilder
 
     private static LoggerConfiguration AddEnrichers(
         this LoggerConfiguration configuration,
+        string appName,
         params AvailableEnrichers[]? enrichers)
     {
+        configuration.Enrich.WithProperty("AppName", appName);
+        configuration.Enrich.FromLogContext();
+
         if (enrichers == null)
         {
             return configuration;
@@ -42,8 +46,8 @@ public static class LoggerConfigurationBuilder
                 case AvailableEnrichers.UserClaim:
                     configuration.Enrich.With<UserClaimsEnricher>();
                     break;
-                case AvailableEnrichers.FromLogContext:
-                    configuration.Enrich.FromLogContext();
+                case AvailableEnrichers.CorrelationId:
+                    configuration.Enrich.With<CorrelationIdEnricher>();
                     break;
             }
 
@@ -84,7 +88,7 @@ public static class LoggerConfigurationBuilder
         var configuration = new LoggerConfiguration()
             .AddWriteToSources(settings.LogSources)
             .SetMinimumLevel(settings.MinimumLevel)
-            .AddEnrichers(settings.Enrichers)
+            .AddEnrichers(settings.AppName, settings.Enrichers)
             .ExcludeFromContext(settings.SourceContextToExclude);
 
         return configuration;
